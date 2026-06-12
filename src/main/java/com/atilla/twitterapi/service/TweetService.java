@@ -5,6 +5,7 @@ import com.atilla.twitterapi.dto.UpdateTweetRequest;
 import com.atilla.twitterapi.entity.Tweet;
 import com.atilla.twitterapi.entity.User;
 import com.atilla.twitterapi.exception.TweetNotFoundException;
+import com.atilla.twitterapi.exception.UserNotFoundException;
 import com.atilla.twitterapi.repository.TweetRepository;
 import com.atilla.twitterapi.repository.UserRepository;
 import org.springframework.stereotype.Service;
@@ -24,7 +25,7 @@ public class TweetService {
     }
 
     public Tweet createTweet(@RequestBody TweetRequest tweetRequest) {
-        User user = userRepository.findById(tweetRequest.getUserId()).orElseThrow(() -> new RuntimeException("User not found"));
+        User user = userRepository.findById(tweetRequest.getUserId()).orElseThrow(() -> new UserNotFoundException("User not found"));
 
         Tweet tweet = new Tweet();
         tweet.setContent(tweetRequest.getContent());
