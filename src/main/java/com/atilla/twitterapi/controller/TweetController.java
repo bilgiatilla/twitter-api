@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tweets")
+@RequestMapping ("/tweets")
 public class TweetController {
     private final TweetService tweetService;
 

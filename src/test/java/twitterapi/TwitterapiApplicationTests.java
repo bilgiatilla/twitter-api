@@ -1,4 +1,4 @@
-package com.atilla.twitterapi;
+package twitterapi;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
