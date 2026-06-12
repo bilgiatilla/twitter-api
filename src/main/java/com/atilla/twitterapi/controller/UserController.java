@@ -4,6 +4,7 @@ import com.atilla.twitterapi.entity.User;
 
 import com.atilla.twitterapi.repository.UserRepository;
 import com.atilla.twitterapi.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,7 +18,7 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUSer(@RequestBody User user) {
+    public User createUSer(@Valid @RequestBody User user) {
         return userService.createUser(user);
     }
 }

@@ -4,6 +4,7 @@ import com.atilla.twitterapi.dto.TweetRequest;
 import com.atilla.twitterapi.dto.UpdateTweetRequest;
 import com.atilla.twitterapi.entity.Tweet;
 import com.atilla.twitterapi.entity.User;
+import com.atilla.twitterapi.exception.ForbiddenException;
 import com.atilla.twitterapi.exception.TweetNotFoundException;
 import com.atilla.twitterapi.exception.UserNotFoundException;
 import com.atilla.twitterapi.repository.TweetRepository;
@@ -48,11 +49,14 @@ public class TweetService {
 
         return tweetRepository.save(tweet);
     }
-    public void deleteTweet(Long id) {
+    public void deleteTweet(Long id, Long userId) {
 
         Tweet tweet = tweetRepository.findById(id)
                 .orElseThrow(() -> new TweetNotFoundException("Tweet not found"));
 
+        if (!tweet.getUser().getId().equals(userId)) {
+            throw new ForbiddenException("Only tweet owner can delete this tweet");
+        }
         tweetRepository.delete(tweet);
     }
 }

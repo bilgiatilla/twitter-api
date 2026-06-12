@@ -6,6 +6,7 @@ import com.atilla.twitterapi.entity.Comment;
 import com.atilla.twitterapi.entity.Tweet;
 import com.atilla.twitterapi.entity.User;
 import com.atilla.twitterapi.exception.CommentNotFoundException;
+import com.atilla.twitterapi.exception.ForbiddenException;
 import com.atilla.twitterapi.exception.TweetNotFoundException;
 import com.atilla.twitterapi.exception.UserNotFoundException;
 import com.atilla.twitterapi.repository.CommentRepository;
@@ -56,11 +57,22 @@ public class CommentService {
         return commentRepository.save(comment);
     }
 
-    public void deleteComment(Long id) {
+    public void deleteComment(Long id, Long userId) {
 
         Comment comment = commentRepository.findById(id)
                 .orElseThrow(() -> new CommentNotFoundException("Comment not found"));
 
+        Long commentOwnerId = comment.getUser().getId();
+        Long tweetOwnerId = comment.getTweet().getUser().getId();
+
+        boolean isCommentOwner = commentOwnerId.equals(userId);
+        boolean isTweetOwner = tweetOwnerId.equals(userId);
+
+        if (!isCommentOwner && !isTweetOwner) {
+            throw new ForbiddenException(
+                    "Only comment owner or tweet owner can delete this comment"
+            );
+        }
         commentRepository.delete(comment);
     }
 }

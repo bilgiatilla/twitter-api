@@ -3,6 +3,7 @@ package com.atilla.twitterapi.controller;
 import com.atilla.twitterapi.dto.RetweetRequest;
 import com.atilla.twitterapi.entity.Retweet;
 import com.atilla.twitterapi.service.RetweetService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -15,7 +16,7 @@ public class RetweetController {
     }
 
     @PostMapping
-    public Retweet createRetweet(@RequestBody RetweetRequest request) {
+    public Retweet createRetweet(@Valid @RequestBody RetweetRequest request) {
         return retweetService.createRetweet(request);
     }
 

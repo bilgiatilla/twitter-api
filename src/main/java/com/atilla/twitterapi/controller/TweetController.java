@@ -4,6 +4,7 @@ import com.atilla.twitterapi.dto.TweetRequest;
 import com.atilla.twitterapi.dto.UpdateTweetRequest;
 import com.atilla.twitterapi.entity.Tweet;
 import com.atilla.twitterapi.service.TweetService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class TweetController {
     }
 
     @PostMapping
-    public Tweet createTweet(@RequestBody TweetRequest tweetRequest) {
+    public Tweet createTweet(@Valid @RequestBody TweetRequest tweetRequest) {
         return tweetService.createTweet(tweetRequest);
     }
 
@@ -33,13 +34,13 @@ public class TweetController {
     }
 
     @PutMapping("/{id}")
-    public Tweet updateTweet(@PathVariable Long id, @RequestBody UpdateTweetRequest request) {
+    public Tweet updateTweet(@PathVariable Long id, @Valid @RequestBody UpdateTweetRequest request) {
         return tweetService.updateTweet(id, request);
     }
 
     @DeleteMapping("/{id}")
-    public String deleteTweet(@PathVariable Long id) {
-        tweetService.deleteTweet(id);
+    public String deleteTweet(@PathVariable Long id, @RequestParam Long userId) {
+        tweetService.deleteTweet(id, userId);
         return "Tweet deleted";
     }
 }
